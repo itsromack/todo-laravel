@@ -20,7 +20,17 @@ class Task extends Model
 
     public function getDueDate($format = false)
     {
+        if ($format == true)
+        {
+            return $this->getFormattedDueDate();
+        }
         return $this->due_date;
+    }
+
+    public function getFormattedDueDate()
+    {
+        $dt = new Carbon($this->due_date);
+        return $dt->toFormattedDateString();
     }
 
     public function isCompleted()
