@@ -25,7 +25,11 @@ class TaskSeeder extends Seeder
         while ($i++ < 10)
         {
             $item = $this->faker->sentence;
-            Task::createTask($item, $this->faker->date);
+            Task::createTask(
+                $item,
+                $this->faker->date,
+                rand(0, 1)
+            );
         }
     }
 }

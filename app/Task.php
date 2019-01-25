@@ -50,7 +50,7 @@ class Task extends Model
         {
             $task->due_date = $due_date;
         }
-        if (!is_null($is_completed) and is_bool($is_completed))
+        if (!is_null($is_completed))
         {
             $task->is_completed = $is_completed;
         }
