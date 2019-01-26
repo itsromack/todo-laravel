@@ -3,10 +3,13 @@
 namespace FileInviteExam;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class Task extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'item',
         'due_date',
@@ -27,10 +30,22 @@ class Task extends Model
         return $this->due_date;
     }
 
+    public function setDueDate($due_date = null)
+    {
+        if (!is_null($due_date))
+        {
+            $this->due_date = $due_date;
+        }
+    }
+
     public function getFormattedDueDate()
     {
-        $dt = new Carbon($this->due_date);
-        return $dt->toFormattedDateString();
+        if (!is_null($this->due_date))
+        {
+            $dt = new Carbon($this->due_date);
+            return $dt->toFormattedDateString();
+        }
+        return null;
     }
 
     public function isCompleted()
@@ -54,12 +69,49 @@ class Task extends Model
         {
             $task->is_completed = $is_completed;
         }
-        return $task->save();
+        if ($task->save() == true)
+        {
+            return $task;
+        }
+        return false;
+    }
+
+    public static function updateTask(
+        $task_id,
+        $item,
+        $due_date = null,
+        $is_completed = null
+    )
+    {
+        $task = static::find($task_id);
+        if (!is_null($task))
+        {
+            $task->item = $item;
+            if (!is_null($due_date))
+            {
+                $task->due_date = $due_date;
+            }
+            if (!is_null($is_completed))
+            {
+                $task->is_completed = $is_completed;
+            }
+            if ($task->save() == true)
+            {
+                return $task;
+            }
+        }
+        return false;
     }
 
     public function setCompleted()
     {
         $this->is_completed = true;
+        return $this->save();
+    }
+
+    public function setNotCompleted()
+    {
+        $this->is_completed = false;
         return $this->save();
     }
 
