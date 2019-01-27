@@ -3,6 +3,8 @@
 <head>
     <title>To Do</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
 <body>
 
 <div class="container">
@@ -21,22 +23,22 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="field">
-        <div class="control">
-            <label class="checkbox">
-                <input type="checkbox"> Task Item Content
-                <a class="delete"></a>
-            </label>
-        </div>
-    </div>
+<div class="container" id="task-list">
+    @foreach ($tasks as $task)
+        <input type="checkbox" class="task-item-is-complete" data-task-id="{{ $task->getId() }}">
+        {{ $task->getItem() }}
+        <button class="delete-task-item" data-task-id="{{ $task->getId() }}">Remove</button>
+        <br>
+    @endforeach
 </div>
 
+<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/Request.js"></script>
 <script type="text/javascript" src="/js/Task.js"></script>
 <script type="text/javascript">
 (function(){
     t = new Task();
+    t.init();
 })();
 </script>
 </body>

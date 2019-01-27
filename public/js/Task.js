@@ -1,4 +1,5 @@
 var Task = function() {
+    this.request = new Request();
     that = this;
     this.init = function() {
         that.item = document.getElementById('task-item-input');
@@ -10,9 +11,14 @@ var Task = function() {
     }
     this.save = function(value) {
         url = TaskAPI.urls.save;
-        r = new Request();
-        r.post(url, {
+        that.request.post(url, {
             item: that.item.value
+        }, function(response) {
+            var template = document.getElementById('task-list-template');
+            console.log(template);
+            that.updateTaskList();
+        }, function(error) {
+            console.log(error);
         });
     }
     this.update = function() {
@@ -32,6 +38,13 @@ var Task = function() {
     }
     this.unremove = function() {
         //
+    }
+    this.updateTaskList = function() {
+        that.request.get(TaskAPI.urls.tasks, function(response) {
+            if (response.success) {
+                console.log(response);
+            }
+        });
     }
 }
 

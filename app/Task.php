@@ -16,6 +16,11 @@ class Task extends Model
         'is_completed'
     ];
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getItem()
     {
         return $this->item;

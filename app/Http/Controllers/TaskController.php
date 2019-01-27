@@ -7,6 +7,19 @@ use FileInviteExam\Task;
 
 class TaskController extends Controller
 {
+    public function index()
+    {
+        $tasks = Task::select([
+            'id',
+            'item',
+            'due_date',
+            'is_completed'
+        ])
+        ->orderBy('id', 'DESC')
+        ->get();
+        return view('todos', compact('tasks'));
+    }
+
     public function fetchAll()
     {
         $tasks = Task::select([
@@ -49,7 +62,6 @@ class TaskController extends Controller
 
     public function saveTask(Request $request)
     {
-        dd($request->all());
         $item = $request->item;
         $due_date = null;
         if ($request->has('due_date'))
