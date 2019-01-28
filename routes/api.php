@@ -35,7 +35,6 @@ Route::group([
     Route::group([
         'prefix' => 'delete'
     ], function() {
-        Route::post('/', 'TaskController@deleteTask');
-        Route::post('/negate', 'TaskController@negateDeleteTask');
+        Route::post('/', 'TaskController@removeTask');
     });
 });

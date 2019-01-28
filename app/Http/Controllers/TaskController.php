@@ -127,7 +127,9 @@ class TaskController extends Controller
         {
             $task->setCompleted();
             return response()->json([
-                'success' => true
+                'success' => true,
+                'task_id' => $request->task_id,
+                'text' => '<s>' . $task->item . '<s>'
             ]);
         }
 
@@ -143,8 +145,29 @@ class TaskController extends Controller
         {
             $task->setNotCompleted();
             return response()->json([
-                'success' => true
+                'success' => true,
+                'task_id' => $request->task_id,
+                'text' => $task->item
             ]);
+        }
+
+        return response()->json([
+            'success' => false
+        ]);
+    }
+
+    public function removeTask(Request $request)
+    {
+        $task = Task::find($request->task_id);
+        if (!is_null($task))
+        {
+            if ($task->delete())
+            {
+                return response()->json([
+                    'success' => true,
+                    'task_id' => $request->task_id
+                ]);
+            }
         }
 
         return response()->json([

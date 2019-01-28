@@ -8,6 +8,24 @@ var Task = function() {
                 that.save(that.item.value);
             }
         }
+
+        // Bind event for completing task item
+        $('.task-item-is-complete').on('change', function() {
+            var task_id = $(this).data('task-id');
+            var task_value = parseInt($(this).data('task-value'));
+            if (task_value == 1) {
+                that.setIncomplete(task_id);
+            } else {
+                that.setComplete(task_id);
+            }
+        });
+
+        // Bind event for removing task item
+        $('.delete-task-item').on('click', function() {
+            var task_id = $(this).data('task-id');
+            console.log('Delete ' + $(this).data('task-id'));
+            that.remove(task_id);
+        });
     }
     this.save = function(value) {
         url = TaskAPI.urls.save;
@@ -15,29 +33,42 @@ var Task = function() {
             item: that.item.value
         }, function(response) {
             var template = document.getElementById('task-list-template');
-            console.log(template);
             that.updateTaskList();
         }, function(error) {
             console.log(error);
         });
     }
-    this.update = function() {
-        //
+    // this.update = function() {
+    //     //
+    // }
+    this.setComplete = function(task_id) {
+        var data = {
+            task_id: task_id
+        };
+        that.request.post(TaskAPI.urls.set_complete, data, function(response) {
+            $('.task-' + response.task_id + ' .task-item-is-complete').data('task-value', 1);
+            $('.task-item-' + response.task_id).html(response.text);
+        });
     }
-    this.setComplete = function() {
-        //
+    this.setIncomplete = function(task_id) {
+        var data = {
+            task_id: task_id
+        };
+        that.request.post(TaskAPI.urls.set_incomplete, data, function(response) {
+            $('.task-' + response.task_id + ' .task-item-is-complete').data('task-value', 0);
+            $('.task-item-' + response.task_id).html(response.text);
+        });
     }
-    this.setIncomplete = function() {
-        //
-    }
-    this.setDueDate = function() {
-        //
-    }
-    this.remove = function() {
-        //
-    }
-    this.unremove = function() {
-        //
+    // this.setDueDate = function() {
+    //     //
+    // }
+    this.remove = function(task_id) {
+        var data = {
+            task_id: task_id
+        };
+        that.request.post(TaskAPI.urls.set_delete, data, function(response) {
+            $('.task-' + response.task_id).fadeOut();
+        });
     }
     this.updateTaskList = function() {
         that.request.get(TaskAPI.urls.tasks, function(response) {
