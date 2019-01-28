@@ -33,7 +33,7 @@ var Task = function() {
             item: that.item.value
         }, function(response) {
             var template = document.getElementById('task-list-template');
-            that.updateTaskList();
+            window.location.reload();
         }, function(error) {
             console.log(error);
         });
@@ -70,13 +70,13 @@ var Task = function() {
             $('.task-' + response.task_id).fadeOut();
         });
     }
-    this.updateTaskList = function() {
-        that.request.get(TaskAPI.urls.tasks, function(response) {
-            if (response.success) {
-                console.log(response);
-            }
-        });
-    }
+    // this.updateTaskList = function() {
+    //     that.request.get(TaskAPI.urls.tasks, function(response) {
+    //         if (response.success) {
+    //             console.log(response);
+    //         }
+    //     });
+    // }
 }
 
 var TaskAPI = {
@@ -90,6 +90,6 @@ var TaskAPI = {
         set_complete: '/api/tasks/complete',
         set_incomplete: '/api/tasks/complete/negate',
         set_delete: '/api/tasks/delete',
-        set_undelete: '/api/tasks/delete/negate',
+        // set_undelete: '/api/tasks/delete/negate',
     }
 }

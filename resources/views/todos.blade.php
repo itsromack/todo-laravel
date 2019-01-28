@@ -31,21 +31,21 @@
             <li class="list-group-item task-{{ $task->getId() }}">
                 <div class="row">
                     <div class="col-1"> 
-                    <input type="checkbox" class="task-item-is-complete" data-task-id="{{ $task->getId() }}" {{ ($task->isCompleted())?"checked":null}} data-task-value="{{ $task->is_completed }}"> 
-                </div>
-                <div class="col-9 task-item-{{ $task->getId() }}">
-                    @if ($task->isCompleted())
-                    <s>{{ $task->getItem() }}</s>
-                    @else
-                    {{ $task->getItem() }}
-                    @endif
-                </div>
-                <div class="col">
-                    <button type="button" class="delete-task-item" aria-label="Remove" data-task-id="{{ $task->getId() }}">
-                        Remove
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                        <input type="checkbox" class="task-item-is-complete" data-task-id="{{ $task->getId() }}" {{ ($task->isCompleted())?"checked":null}} data-task-value="{{ $task->is_completed }}"> 
+                    </div>
+                    <div class="col-9 task-item-{{ $task->getId() }}">
+                        @if ($task->isCompleted())
+                        <s>{{ $task->getItem() }}</s>
+                        @else
+                        {{ $task->getItem() }}
+                        @endif
+                    </div>
+                    <div class="col">
+                        <button type="button" class="delete-task-item" aria-label="Remove" data-task-id="{{ $task->getId() }}">
+                            Remove
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
             </li>
             @endforeach
